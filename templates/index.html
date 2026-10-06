@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Shashwat Patil">
+  <title>Stockroom - Inventory Management</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="top">
+    <div>
+      <h1>Stockroom</h1>
+      <p>Know what's on the shelf and what needs reordering.</p>
+    </div>
+    <button class="btn primary" id="addBtn">Add product</button>
+  </header>
+
+  <main>
+    <section class="health" aria-label="Stock health">
+      <div class="health-head">
+        <h2>Stock health</h2>
+        <p id="healthText">Loading…</p>
+      </div>
+      <div class="bar" id="healthBar" role="img" aria-label="Share of products by stock level"></div>
+      <ul class="legend">
+        <li><i class="dot ok"></i><span id="okCount">0</span> well stocked</li>
+        <li><i class="dot low"></i><span id="lowCount">0</span> running low</li>
+        <li><i class="dot out"></i><span id="outCount">0</span> out of stock</li>
+      </ul>
+      <dl class="totals">
+        <div><dt>Products</dt><dd id="tProducts">0</dd></div>
+        <div><dt>Units on hand</dt><dd id="tUnits">0</dd></div>
+        <div><dt>Stock value</dt><dd id="tValue">₹0</dd></div>
+      </dl>
+    </section>
+
+    <section class="tools">
+      <input type="search" id="search" placeholder="Search by name, product ID or category" aria-label="Search products">
+      <select id="category" aria-label="Filter by category"><option value="">All categories</option></select>
+      <div class="chips" role="group" aria-label="Filter by stock level">
+        <button class="chip on" data-status="">All</button>
+        <button class="chip" data-status="low">Running low</button>
+        <button class="chip" data-status="out">Out of stock</button>
+      </div>
+    </section>
+
+    <section class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Product</th><th>Category</th><th class="num">Price</th><th>Stock</th><th>Level</th><th></th></tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+      <p class="empty" id="empty" hidden></p>
+    </section>
+  </main>
+
+  <footer class="foot">Mini project by Shashwat Patil, Robotics and AI</footer>
+
+  <dialog id="dlg">
+    <form id="form" novalidate>
+      <h3 id="dlgTitle">Add product</h3>
+      <label>Product ID<input name="product_code" maxlength="20" placeholder="e.g. ELC-1005"></label>
+      <label>Product name<input name="name" maxlength="80"></label>
+      <label>Category<input name="category" list="catList" maxlength="40" placeholder="Pick one or type a new one"></label>
+      <datalist id="catList"></datalist>
+      <div class="two">
+        <label>Price (₹)<input name="price" inputmode="decimal"></label>
+        <label id="qtyField">Opening quantity<input name="quantity" inputmode="numeric"></label>
+        <label>Reorder when stock reaches<input name="reorder_level" inputmode="numeric" value="10"></label>
+      </div>
+      <p class="form-error" id="formError" role="alert"></p>
+      <div class="actions">
+        <button type="button" class="btn" id="cancel">Cancel</button>
+        <button class="btn primary" id="save">Save product</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
